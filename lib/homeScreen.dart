@@ -1,44 +1,60 @@
 import 'package:flutter/material.dart';
-import 'package:english_words/english_words.dart';
+import 'package:fluttertest/screens/first.dart';
+import 'package:fluttertest/screens/fourth.dart';
+import 'package:fluttertest/screens/home.dart';
+import 'package:fluttertest/screens/second.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
-  RandomWordsState createState() => RandomWordsState();
+  _MyApp createState() => _MyApp();
 }
 
-class RandomWordsState extends State<HomeScreen> {
-  final _suggestions = <WordPair>[];
-  final _biggerFont = const TextStyle(fontSize: 18.0);
+class _MyApp extends State<HomeScreen> {
+  int _selectedIndex = 0;
+  final List<Widget> _children = [Home(), First(), Second(), Fourth()];
+  final List<String> _chilcTitle = ['Page1', 'Page2', 'Page3', 'Page4'];
+  void _onTap(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('flutter 테스트'),
+        title: Text(_chilcTitle[_selectedIndex]),
       ),
-      body: _buildSuggestions(),
-    );
-  }
-
-  Widget _buildSuggestions() {
-    return ListView.builder(
-        padding: const EdgeInsets.all(1.0),
-        itemBuilder: /*1*/ (context, i) {
-          if (i.isOdd) return Divider(); /*2*/
-
-          final index = i ~/ 2; /*3*/
-          if (index >= _suggestions.length) {
-            _suggestions.addAll(generateWordPairs().take(10)); /*4*/
-          }
-          return _buildRow(_suggestions[index]);
-        });
-  }
-
-  Widget _buildRow(WordPair pair) {
-    return ListTile(
-      title: Text(
-        pair.asPascalCase,
-        style: _biggerFont,
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.grey,
+        selectedItemColor: Colors.blue,
+        unselectedItemColor: Colors.white.withOpacity(.60),
+        selectedFontSize: 14,
+        unselectedFontSize: 14,
+        currentIndex: _selectedIndex, //현재 선택된 Index
+        onTap: _onTap,
+        items: [
+          BottomNavigationBarItem(
+            label: 'Favorites',
+            icon: Icon(Icons.favorite),
+          ),
+          BottomNavigationBarItem(
+            label: 'Music',
+            icon: Icon(Icons.music_note),
+          ),
+          BottomNavigationBarItem(
+            label: 'Places',
+            icon: Icon(Icons.location_on),
+          ),
+          BottomNavigationBarItem(
+            label: 'News',
+            icon: Icon(Icons.library_books),
+          ),
+        ],
+      ),
+      body: Center(
+        child: _children[_selectedIndex],
       ),
     );
   }
