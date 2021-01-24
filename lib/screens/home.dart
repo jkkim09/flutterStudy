@@ -27,7 +27,7 @@ class _HomeState extends State<Home> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'You have pushed the button this many times:',
+              '터치하면 Counter 증가',
             ),
             Text('$_counter'),
           ],

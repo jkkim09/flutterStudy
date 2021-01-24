@@ -9,7 +9,7 @@ class _SecondState extends State<Second> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text('Second'),
+      child: Text('장소'),
     );
   }
 }

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "825792129963",
+    "firebase_url": "https://my-toyproject-default-rtdb.firebaseio.com",
+    "project_id": "my-toyproject",
+    "storage_bucket": "my-toyproject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:825792129963:android:21c7b2dfb67de71015c0ee",
+        "android_client_info": {
+          "package_name": "com.example.fluttertest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "825792129963-aum4e80s0vomj6jl4c0ih7ifnb51ou9u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fluttertest",
+            "certificate_hash": "c36b54ec2bd827f684238da7302e86ab25934768"
+          }
+        },
+        {
+          "client_id": "825792129963-kpjo6j80lolo7pv29aq6pnd2a7ulbcgj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTndQr3SV8K2p8v1XbeigqRbTOdGbXuO0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "825792129963-kpjo6j80lolo7pv29aq6pnd2a7ulbcgj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
