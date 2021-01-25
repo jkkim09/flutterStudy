@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:fluttertest/widgetUI/widget_ui_demo.dart';
 
 class Fourth extends StatefulWidget {
   @override
@@ -9,7 +10,7 @@ class _SecondState extends State<Fourth> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text('뉴스'),
+      child: WidgetUIDemo(),
     );
   }
 }
