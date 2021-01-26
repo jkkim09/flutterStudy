@@ -55,6 +55,9 @@ flutter:
   assets:
     - images/google_flutter_logo.png
     - images/icons/
+    - assets/
+    - assets/samples/
+    - assets/noises/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
