@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:fluttertest/widgetUI/test_sound/record_to_stream_example.dart';
 
 class Second extends StatefulWidget {
   @override
@@ -9,7 +10,7 @@ class _SecondState extends State<Second> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text('장소'),
+      child: RecordToStreamExample(),
     );
   }
 }
