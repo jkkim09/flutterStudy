@@ -3,6 +3,7 @@ import 'package:fluttertest/screens/first.dart';
 import 'package:fluttertest/screens/fourth.dart';
 import 'package:fluttertest/screens/home.dart';
 import 'package:fluttertest/screens/second.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -21,41 +22,47 @@ class _MyApp extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(_chilcTitle[_selectedIndex]),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.grey,
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.white.withOpacity(.60),
-        selectedFontSize: 14,
-        unselectedFontSize: 14,
-        currentIndex: _selectedIndex, //현재 선택된 Index
-        onTap: _onTap,
-        items: [
-          BottomNavigationBarItem(
-            label: 'Favorites',
-            icon: Icon(Icons.favorite),
-          ),
-          BottomNavigationBarItem(
-            label: 'Music',
-            icon: Icon(Icons.music_note),
-          ),
-          BottomNavigationBarItem(
-            label: 'Places',
-            icon: Icon(Icons.location_on),
-          ),
-          BottomNavigationBarItem(
-            label: 'News',
-            icon: Icon(Icons.library_books),
-          ),
+    return MultiProvider(
+        providers: [
+          Provider<int>.value(value: 100),
+          Provider<int>.value(value: 50),
+          Provider<String>.value(value: "Hello World"),
         ],
-      ),
-      body: Center(
-        child: _children[_selectedIndex],
-      ),
-    );
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(_chilcTitle[_selectedIndex]),
+          ),
+          bottomNavigationBar: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            backgroundColor: Colors.grey,
+            selectedItemColor: Colors.blue,
+            unselectedItemColor: Colors.white.withOpacity(.60),
+            selectedFontSize: 14,
+            unselectedFontSize: 14,
+            currentIndex: _selectedIndex, //현재 선택된 Index
+            onTap: _onTap,
+            items: [
+              BottomNavigationBarItem(
+                label: 'Favorites',
+                icon: Icon(Icons.favorite),
+              ),
+              BottomNavigationBarItem(
+                label: 'Music',
+                icon: Icon(Icons.music_note),
+              ),
+              BottomNavigationBarItem(
+                label: 'Places',
+                icon: Icon(Icons.location_on),
+              ),
+              BottomNavigationBarItem(
+                label: 'News',
+                icon: Icon(Icons.library_books),
+              ),
+            ],
+          ),
+          body: Center(
+            child: _children[_selectedIndex],
+          ),
+        ));
   }
 }

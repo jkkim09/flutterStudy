@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_sound/flutter_sound.dart';
@@ -61,6 +62,13 @@ class _FirstState extends State<First> {
 
   @override
   Widget build(BuildContext context) {
+    final number = Provider.of<int>(context);
+    final string = Provider.of<String>(context);
+
+    debugPrint("======================================>");
+    print(number);
+    print(string);
+    debugPrint("<======================================");
     return FutureBuilder(
         initialData: false,
         future: init(),
