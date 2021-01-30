@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertest/provider/count_provider.dart';
 import 'package:fluttertest/screens/first.dart';
 import 'package:fluttertest/screens/fourth.dart';
 import 'package:fluttertest/screens/home.dart';
@@ -27,6 +28,9 @@ class _MyApp extends State<HomeScreen> {
           Provider<int>.value(value: 100),
           Provider<int>.value(value: 50),
           Provider<String>.value(value: "Hello World"),
+          ChangeNotifierProvider(
+            create: (context) => CountProvider(0),
+          )
         ],
         child: Scaffold(
           appBar: AppBar(

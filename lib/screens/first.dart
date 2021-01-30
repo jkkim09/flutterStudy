@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:fluttertest/provider/count_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,7 +20,7 @@ class _FirstState extends State<First> {
   bool initialized = false;
   Track track;
   String recordingFile;
-
+  CountProvider _countProvider;
   @override
   void initState() {
     super.initState();
@@ -82,6 +83,7 @@ class _FirstState extends State<First> {
   }
 
   Widget _buildRecorder(Track track) {
+    _countProvider = Provider.of<CountProvider>(context);
     return Padding(
         padding: const EdgeInsets.all(8.0),
         child: RecorderPlaybackController(
@@ -99,6 +101,12 @@ class _FirstState extends State<First> {
               showTitle: true,
               audioFocus: AudioFocus.requestFocusAndDuckOthers,
             ),
+            InkWell(
+              child: Text('test'),
+              onTap: () {
+                _countProvider.add();
+              },
+            )
           ],
         )));
   }

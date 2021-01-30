@@ -300,10 +300,6 @@ class _RecordToStreamExampleState extends State<RecordToStreamExample> {
     }
 
     return Scaffold(
-      backgroundColor: Colors.blue,
-      appBar: AppBar(
-        title: const Text('Record to Stream ex.'),
-      ),
       body: makeBody(),
     );
   }
