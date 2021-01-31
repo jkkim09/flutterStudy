@@ -35,6 +35,15 @@ import 'package:permission_handler/permission_handler.dart';
 ///
 const int tSampleRate = 44000;
 typedef _Fn = void Function();
+String _path = '/';
+
+void setPath(path) {
+  _path = path;
+}
+
+getPath() {
+  return _path;
+}
 
 /// Example app.
 class RecordToStreamExample extends StatefulWidget {
@@ -72,7 +81,14 @@ class _RecordToStreamExampleState extends State<RecordToStreamExample> {
         _mPlayerIsInited = true;
       });
     });
+    _setPath();
     _openRecorder();
+  }
+
+  void _setPath() async {
+    var dir = await getApplicationDocumentsDirectory();
+    _mPath = '${dir.path}/flutter_sound_example.aac';
+    print("===========_setPath=================>>>>" + _mPath);
   }
 
   @override
@@ -90,7 +106,6 @@ class _RecordToStreamExampleState extends State<RecordToStreamExample> {
   Future<IOSink> createFile() async {
     var dir = await getApplicationDocumentsDirectory();
     _mPath = '${dir.path}/flutter_sound_example.aac';
-    print(_mPath);
     var outputFile = File(_mPath);
     if (outputFile.existsSync()) {
       // await outputFile.delete();
@@ -157,9 +172,15 @@ class _RecordToStreamExampleState extends State<RecordToStreamExample> {
   }
 
   void playTest() async {
+    var dir = await getApplicationDocumentsDirectory();
+    dir
+        .list(recursive: true, followLinks: false)
+        .listen((FileSystemEntity entity) {
+      print("======================================>" + entity.path);
+    });
+
     await _mPlayer.startPlayer(
-        fromURI:
-            '/data/user/0/com.example.fluttertest/app_flutter/flutter_sound_example.aac',
+        fromURI: _mPath,
         sampleRate: tSampleRate,
         codec: Codec.pcm16,
         numChannels: 1,
@@ -294,7 +315,22 @@ class _RecordToStreamExampleState extends State<RecordToStreamExample> {
                     var disposition = streamData.data;
                     // onRecorderProgress(context, this, disposition.duration);
                     return Text(disposition.decibels.toString());
-                  }))
+                  })),
+          RaisedButton(
+            child: Text(
+              'Show Pop-up',
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+            color: Colors.black,
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) => TestDialog(),
+              );
+            },
+          )
         ],
       );
     }
@@ -304,3 +340,55 @@ class _RecordToStreamExampleState extends State<RecordToStreamExample> {
     );
   }
 }
+
+// _RecordToStreamExampleState ppState = new _RecordToStreamExampleState();
+
+class TestDialog extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new AlertDialog(
+      title: const Text('Popup example'),
+      content: new Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          TextField(
+            obscureText: true,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: 'Title',
+            ),
+            onChanged: (String title) {
+              print(title);
+              setPath(title);
+            },
+          ),
+        ],
+      ),
+      actions: <Widget>[
+        new FlatButton(
+          onPressed: () {
+            print(getPath());
+            Navigator.of(context).pop();
+          },
+          textColor: Theme.of(context).primaryColor,
+          child: const Text('확인'),
+        ),
+        new FlatButton(
+          onPressed: () {
+            // ppState.playTest();
+            Navigator.of(context).pop();
+          },
+          textColor: Theme.of(context).primaryColor,
+          child: const Text('닫기'),
+        )
+      ],
+    );
+  }
+}
+
+// Widget _buildPopupDialog(BuildContext context) {
+// //  final _RecordToStreamExampleState state = RecordToStreamExample.of(context);
+
+//   return
+// }
