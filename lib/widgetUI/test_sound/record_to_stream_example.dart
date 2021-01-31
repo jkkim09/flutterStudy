@@ -87,6 +87,12 @@ class _RecordToStreamExampleState extends State<RecordToStreamExample> {
 
   void _setPath() async {
     var dir = await getApplicationDocumentsDirectory();
+    dir
+        .list(recursive: true, followLinks: false)
+        .listen((FileSystemEntity entity) {
+      print("==========_setPath-list====================>" + entity.path);
+    });
+
     _mPath = '${dir.path}/flutter_sound_example.aac';
     print("===========_setPath=================>>>>" + _mPath);
   }
@@ -141,6 +147,8 @@ class _RecordToStreamExampleState extends State<RecordToStreamExample> {
       await _mRecordingDataSubscription.cancel();
       _mRecordingDataSubscription = null;
     }
+    var dir = await getApplicationDocumentsDirectory();
+    File(_mPath).copySync('${dir.path}/test.aac');
     _mplaybackReady = true;
   }
 
@@ -172,13 +180,6 @@ class _RecordToStreamExampleState extends State<RecordToStreamExample> {
   }
 
   void playTest() async {
-    var dir = await getApplicationDocumentsDirectory();
-    dir
-        .list(recursive: true, followLinks: false)
-        .listen((FileSystemEntity entity) {
-      print("======================================>" + entity.path);
-    });
-
     await _mPlayer.startPlayer(
         fromURI: _mPath,
         sampleRate: tSampleRate,
