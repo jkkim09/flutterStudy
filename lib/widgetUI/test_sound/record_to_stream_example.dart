@@ -22,6 +22,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter_media_notification/flutter_media_notification.dart';
 /*
  * This is an example showing how to record to a Dart Stream.
  * It writes all the recorded data from a Stream to a File, which is completely stupid:
@@ -59,13 +60,20 @@ class _RecordToStreamExampleState extends State<RecordToStreamExample> {
   bool _mplaybackReady = false;
   String _mPath;
   StreamSubscription _mRecordingDataSubscription;
+  // test
+  bool _pause = false;
 
   Future<void> _openRecorder() async {
     var status = await Permission.microphone.request();
     if (status != PermissionStatus.granted) {
       throw RecordingPermissionException('Microphone permission not granted');
     }
-    await _mRecorder.openAudioSession();
+    await _mRecorder.openAudioSession(
+        focus: AudioFocus.requestFocusAndDuckOthers,
+        category: SessionCategory.playAndRecord,
+        mode: SessionMode.modeDefault,
+        device: AudioDevice.speaker,
+        audioFlags: outputToSpeaker | allowBlueToothA2DP | allowAirPlay);
     setState(() {
       _mRecorderIsInited = true;
     });
@@ -83,6 +91,31 @@ class _RecordToStreamExampleState extends State<RecordToStreamExample> {
     });
     _setPath();
     _openRecorder();
+    _setNotifi();
+  }
+
+  void _setNotifi() {
+    MediaNotification.setListener('pause', () {
+      print('pause');
+      _mPlayer.pausePlayer();
+    });
+
+    MediaNotification.setListener('play', () {
+      print('play');
+      _mPlayer.resumePlayer();
+    });
+
+    MediaNotification.setListener('next', () {
+      print('next');
+    });
+
+    MediaNotification.setListener('prev', () {
+      print('prev');
+    });
+
+    MediaNotification.setListener('select', () {
+      print('select');
+    });
   }
 
   void _setPath() async {
@@ -168,6 +201,7 @@ class _RecordToStreamExampleState extends State<RecordToStreamExample> {
         _mplaybackReady &&
         _mRecorder.isStopped &&
         _mPlayer.isStopped);
+
     await _mPlayer.startPlayer(
         fromURI: _mPath,
         sampleRate: tSampleRate,
@@ -176,6 +210,7 @@ class _RecordToStreamExampleState extends State<RecordToStreamExample> {
         whenFinished: () {
           setState(() {});
         }); // The readability of Dart is very special :-(
+
     setState(() {});
   }
 
@@ -188,11 +223,31 @@ class _RecordToStreamExampleState extends State<RecordToStreamExample> {
         whenFinished: () {
           setState(() {});
         }); // The readability of Dart is very special :-(
+    MediaNotification.showNotification(title: 'Title', author: 'Song author');
     setState(() {});
   }
 
   Future<void> stopPlayer() async {
     await _mPlayer.stopPlayer();
+  }
+
+  Future<void> pausePlayer() async {
+    if (!_pause) {
+      await _mPlayer.pausePlayer();
+    } else {
+      await _mPlayer.resumePlayer();
+    }
+    _pause = !_pause;
+    setState(() {});
+  }
+
+  Future<void> puaseRecord() async {
+    if (!_mRecorder.isPaused) {
+      await _mRecorder.pauseRecorder();
+    } else {
+      await _mRecorder.resumeRecorder();
+    }
+    setState(() {});
   }
 
   _Fn getPlaybackFn() {
@@ -243,6 +298,14 @@ class _RecordToStreamExampleState extends State<RecordToStreamExample> {
                 color: Colors.white,
                 disabledColor: Colors.grey,
                 child: Text(_mRecorder.isRecording ? 'Stop' : 'Record'),
+              ),
+              RaisedButton(
+                onPressed: () {
+                  puaseRecord();
+                },
+                color: Colors.white,
+                disabledColor: Colors.grey,
+                child: Text(_mRecorder.isPaused ? '정지' : '다시시작'),
               ),
               SizedBox(
                 width: 20,
@@ -297,6 +360,12 @@ class _RecordToStreamExampleState extends State<RecordToStreamExample> {
               ElevatedButton(
                 onPressed: getPlaybackFnTest(),
                 child: Text(_mPlayer.isPlaying ? 'Stop' : 'Play'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  pausePlayer();
+                },
+                child: Text(_mPlayer.isPaused ? '정지' : '시작'),
               ),
               SizedBox(
                 width: 50,
