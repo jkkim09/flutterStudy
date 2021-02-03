@@ -6,6 +6,11 @@
 - flutter_sound
 - MultiProvider
 
+# DEV
+````
+flutter run
+````
+
 # Build
 ````
 flutter build apk --release --target-platform=android-arm64
