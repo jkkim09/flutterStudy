@@ -63,13 +63,6 @@ class _FirstState extends State<First> {
 
   @override
   Widget build(BuildContext context) {
-    final number = Provider.of<int>(context);
-    final string = Provider.of<String>(context);
-
-    debugPrint("======================================>");
-    print(number);
-    print(string);
-    debugPrint("<======================================");
     return FutureBuilder(
         initialData: false,
         future: init(),

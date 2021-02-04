@@ -1,18 +1,37 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:fluttertest/homeScreen.dart';
+import 'package:fluttertest/provider/viewMode_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:fluttertest/provider/count_provider.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  ViewModeProvider _viewModeProvider;
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: new SplashScreen(),
-      routes: <String, WidgetBuilder>{
-        '/HomeScreen': (BuildContext context) => new HomeScreen()
-      },
-    );
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (context) {
+              return CountProvider(0);
+            },
+          ),
+          ChangeNotifierProvider(
+            create: (context) {
+              _viewModeProvider = ViewModeProvider(true);
+              return _viewModeProvider;
+            },
+          )
+        ],
+        child: MaterialApp(
+          home: new SplashScreen(),
+          theme: ThemeData.dark(),
+          routes: <String, WidgetBuilder>{
+            '/HomeScreen': (BuildContext context) => new HomeScreen()
+          },
+        ));
   }
 }
 

@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertest/widgetUI/widget_ui_demo.dart';
 import 'package:flutter/foundation.dart';
+import 'package:fluttertest/provider/viewMode_provider.dart';
+import 'package:provider/provider.dart';
 
 class Fourth extends StatefulWidget {
   @override
@@ -9,6 +10,7 @@ class Fourth extends StatefulWidget {
 }
 
 class _SecondState extends State<Fourth> {
+  ViewModeProvider _viewModeProvider;
   @override
   void initState() {
     super.initState();
@@ -17,44 +19,21 @@ class _SecondState extends State<Fourth> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: RaisedButton(
-        child: Text(
-          'Show Pop-up',
-          style: TextStyle(
-            color: Colors.white,
-          ),
+    _viewModeProvider = Provider.of<ViewModeProvider>(context);
+    return Column(
+      children: [
+        InkWell(
+          child: Text('다크 모드'),
+          onTap: () {
+            _viewModeProvider.setDark();
+          },
         ),
-        color: Colors.black,
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) => _buildPopupDialog(context),
-          );
-        },
-      ),
+        InkWell(
+            child: Text('라이트 모드'),
+            onTap: () {
+              _viewModeProvider.setWhite();
+            })
+      ],
     );
   }
-}
-
-Widget _buildPopupDialog(BuildContext context) {
-  return new AlertDialog(
-    title: const Text('Popup example'),
-    content: new Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text("Hello"),
-      ],
-    ),
-    actions: <Widget>[
-      new FlatButton(
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-        textColor: Theme.of(context).primaryColor,
-        child: const Text('닫기'),
-      ),
-    ],
-  );
 }
