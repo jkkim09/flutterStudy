@@ -20,20 +20,23 @@ class _SecondState extends State<Fourth> {
   @override
   Widget build(BuildContext context) {
     _viewModeProvider = Provider.of<ViewModeProvider>(context);
-    return Column(
-      children: [
-        InkWell(
-          child: Text('다크 모드'),
+    return Column(children: [
+      InkWell(
+        child: Text('다크 모드'),
+        onTap: () {
+          _viewModeProvider.setDark();
+        },
+      ),
+      InkWell(
+          child: Text('라이트 모드'),
           onTap: () {
-            _viewModeProvider.setDark();
-          },
-        ),
-        InkWell(
-            child: Text('라이트 모드'),
-            onTap: () {
-              _viewModeProvider.setWhite();
-            })
-      ],
-    );
+            _viewModeProvider.setWhite();
+          }),
+      InkWell(
+          child: Text('Wave'),
+          onTap: () {
+            Navigator.pushNamed(context, '/Wave');
+          }),
+    ]);
   }
 }

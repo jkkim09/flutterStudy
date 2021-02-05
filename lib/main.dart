@@ -2,12 +2,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:fluttertest/homeScreen.dart';
 import 'package:fluttertest/provider/viewMode_provider.dart';
+import 'package:fluttertest/ui/views/clipper_view.dart';
+import 'package:fluttertest/ui/views/painter_view.dart';
 import 'package:provider/provider.dart';
 import 'package:fluttertest/provider/count_provider.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(Main());
 
-class MyApp extends StatelessWidget {
+class Main extends StatelessWidget {
   ViewModeProvider _viewModeProvider;
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,9 @@ class MyApp extends StatelessWidget {
           home: new SplashScreen(),
           theme: ThemeData.dark(),
           routes: <String, WidgetBuilder>{
-            '/HomeScreen': (BuildContext context) => new HomeScreen()
+            '/HomeScreen': (BuildContext context) => new HomeScreen(),
+            '/Wave': (BuildContext context) => new ClipperView(),
+            '/Painter': (BuildContext context) => new PainterView(),
           },
         ));
   }

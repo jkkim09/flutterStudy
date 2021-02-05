@@ -60,6 +60,9 @@ flutter:
     - assets/
     - assets/samples/
     - assets/noises/
+    - assets/waveforms/
+    # - assets/waveforms/loop.json
+    # - assets/waveforms/oneshot.json
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
